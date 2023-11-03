@@ -1,0 +1,105 @@
+*{
+  font-size: 1.15rem;
+  font-family:  monospace;
+}
+
+.containner{
+  background-color:#f5f2f2;
+  color: #0000;
+  display: flex;
+
+}
+
+.buttonContainer{
+  display: grid;
+  grid-gap: 0.5rem;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr); /* Create four equal-width columns */
+
+}
+
+button{
+  background-color: #f9f9f8;
+  color: #1a1a1a;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 17vw;
+  height: 10vh;
+}
+
+.side{
+  width: 35vw;
+  color: white;
+  background-color: #1d6978;
+  padding: 0.5rem
+}
+
+.spacialBtn {
+  background-color: #1d6978;
+  color: #e5eef1;
+  font-size: 1.5rem;
+}
+
+.displayContainer{
+  background-color: #345678;
+  color: #e5eef1;
+  height: 30vh;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.verticalContainer{
+  display: flex;
+  flex-direction: column;
+  margin-right: 0.5rem;
+  gap: 0.5rem;
+}
+
+.msqrt{
+
+  -webkit-text-size-adjust: 100%;
+  --rem: 16;
+  --block-spacing: 1.875rem;
+  --button-primary-action: #e1245a;
+  --button-primary-contrast: #fff;
+  --button-primary-active: #b91947;
+  --button-primary-hover-box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  --button-primary-border: #e1245a;
+  --button-secondary-action: #f9f9f9;
+  --button-secondary-contrast: #153154;
+    --button-secondary-active: #e0e0e0;
+    --button-secondary-hover-box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  --button-secondary-border: #153154;
+  --collapsible-trigger-color: #e1245a;
+  --collapsible-trigger-hover-color: #007ac0;
+  --list-item-bullet-color: #007ac0;
+  --list-item-bullet-contrast: #fff;
+  --list-item-number-color: #007ac0;
+  --list-item-number-contrast: #fff;
+  --text-block-emphasized-text-color: #007ac0;
+  --app-height: 868px;
+  color: #393939;
+  font-style: normal;
+  font-weight: normal;
+  text-indent: 0;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  direction: ltr;
+  white-space: nowrap!important;
+  font-size: 1.2rem;
+  -webkit-transition: none;
+  display: inline;
+  position: static;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  vertical-align: 0;
+  line-height: normal;
+  text-decoration: none;
+  padding-left: 0.305em;
+}
