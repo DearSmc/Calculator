@@ -4,6 +4,7 @@
     <title>Service Call Example</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.js" integrity="sha512-rffRpOvP8/vOkbpVUpjesEh2AI40+pNcMh0LAAdOKBE96pLnJh1IGKGhu/RL5lrmW8fA9p5ph5GkCOlMNXr3eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
   </head>
 
@@ -11,21 +12,22 @@
     <div class="containner">
       <div class="verticalContainer">
         <div class="displayContainer">
-          <h1 id="displayVal"></h1>
+          <p id="equation"></p>
+          <p id="displayVal"></p>
         </div>
 
         <div class="buttonContainer">
-            <button id="percent" value="percent">%</button>
+            <button id="percent" value="%">%</button>
             <button id="ce" value="ce">CE</button>
             <button id="c" value="c">C</button>
             <button id="del" value="del" style="font-size: 1.5rem">&#9003;</button>
 
-            <button id="dx" value="dx">1<sub style="font-size: 1.2rem">/x</sub></button>
-            <button id="pow2" value="pow2">X<sup>2</sup></button>
+            <button id="dx" value="1/">1<sub style="font-size: 1.2rem">/x</sub></button>
+            <button id="pow2" value="^2">X<sup>2</sup></button>
             <button id="sqrt" value="sqrt">
               <span class="msqrt" id="MathJax-Span-119" style="padding-left: 0.305em;"><span style="display: inline-block; position: relative; width: 1.414em; height: 0px;"><span style="position: absolute; clip: rect(3.38em, 1000.51em, 4.136em, -999.997em); top: -3.979em; left: 0.859em;"><span class="mrow" id="MathJax-Span-120"><span class="mi" id="MathJax-Span-121" style="font-family: MathJax_Math-italic;">x</span></span><span style="display: inline-block; width: 0px; height: 3.984em;"></span></span><span style="position: absolute; clip: rect(0.91em, 1000.56em, 1.263em, -999.997em); top: -1.762em; left: 0.859em;"><span style="display: inline-block; overflow: hidden; vertical-align: -0.048em; border-top: 1.3px solid; width: 0.557em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.061em;"></span></span><span style="position: absolute; clip: rect(3.027em, 1000.86em, 4.337em, -999.997em); top: -3.929em; left: 0.003em;"><span style="font-family: MathJax_Main;">√</span><span style="display: inline-block; width: 0px; height: 3.984em;"></span></span></span></span>
             </button>
-            <button id="divide" value="divide">
+            <button id="divide" value="/">
               <span style="font-size: 1.5rem;">&divide</span>
             </button>
 
@@ -33,25 +35,25 @@
             <button id="seven" value="7">7</button>
             <button id="eight" value="8">8</button>
             <button id="nine" value="9">9</button>
-            <button id="times" value="times" style="font-size: 1.5rem">&times;</button>
+            <button id="times" value="*" style="font-size: 1.5rem">&times;</button>
 
 
             <button id="four" value="4">4</button>
             <button id="five" value="5">5</button>
             <button id="six" value="6">6</button>
-            <button id="plus" value="plus" style="font-size: 1.5rem">&plus;</button>
+            <button id="plus" value="+" style="font-size: 1.5rem">&plus;</button>
 
 
             <button id="one" value="1">1</button>
             <button id="two" value="2">2</button>
             <button id="three" value="3">3</button>
-            <button id="minus" value="minus" style="font-size: 1.5rem">&minus;</button>
+            <button id="minus" value="-" style="font-size: 1.5rem">&minus;</button>
 
 
-            <button id="toggleNegative" value="toggleNegative">&plus;<sub>/&minus;</sub></button>
+            <button id="toggleNegative" value="*-1">&plus;<sub>/&minus;</sub></button>
             <button id="zero" value="0">0</button>
-            <button id="point" value="point" style="font-size: 1.5rem">.</button>
-            <button id="equals" value="equals" class="spacialBtn">&equals;</button>
+            <button id="point" value="." style="font-size: 1.5rem">.</button>
+            <button id="equals" value="=" class="spacialBtn">&equals;</button>
 
         </div>
     </div>

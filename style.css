@@ -25,6 +25,12 @@ button{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 17vw;
   height: 10vh;
+  cursor: pointer;
+  /* .prevent-select */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
 }
 
 .side{
@@ -44,10 +50,11 @@ button{
   background-color: #345678;
   color: #e5eef1;
   height: 30vh;
-  padding: 0.5rem;
+  padding: 1%;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  flex-direction: column;
 }
 
 .verticalContainer{
@@ -102,4 +109,14 @@ button{
   line-height: normal;
   text-decoration: none;
   padding-left: 0.305em;
+}
+
+#displayVal{
+  font-size: 3rem;
+  margin: 0.5rem;
+}
+
+#equation{
+  font-size: 1.2rem;
+  margin: 0.5rem;
 }
