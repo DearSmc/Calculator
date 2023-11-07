@@ -1,20 +1,55 @@
 $(document).ready(function () {
   let History = [];
-  let equation = {
-    a: null,
-    sign: null,
-  };
+  let equation = [];
   let input = "";
   let displayInput = "";
   let displayEquation = "";
-  let didSolved = true;
+  let SIGN = ["+", "-", "*", "/"];
 
   $("button").click(function () {
     var val = $(this).val();
     if (isNumeric(val) || val === "." || val === "*-1") {
-      input = val === "*-1" ? (Number(input) * -1).toString() : input + val;
+      if (val === "*-1") {
+        let temp = input || equation[0] || "0";
+
+        if (input !== "") {
+          input = (Number(input) * -1).toString();
+        }
+        else if(equation[0] !== undefined)
+        {        
+          if(isNumeric(equation[equation.length - 1])){// end with equals;
+            input = (Number(equation[0]) * -1).toString();
+            equation = [];
+          }
+          else { // end with sign
+            input = equation[0];
+          }
+        }
+        else input ="0"
+        
+        displayEquation = equation.join(" ")+" negative(" + temp +")"
+        
+      } else if (val === ".") {
+        input = input + val;
+      } else input = Number(input + val).toString();
+
       displayInput = input;
-    } else if (val === "%" || val === "^2" || val === "1/" || val === "sqrt") {
+    } else if (["%", "^2", "1/", "sqrt"].includes(val)) {
+      if (input === "") {
+        // case 4 after del c ce
+        if (equation.some((char) => SIGN.includes(char))) {
+          if (isNumeric(equation[equation.length - 1])) {
+            //case 1 after equals;
+            input = equation[0];
+            equation = [];
+          } else {
+            // case 2 end with sign;
+            input = equation[0];
+          }
+        } // case 3 first time;
+        else input = "0";
+      }
+
       switch (val) {
         case "%":
         case "^2":
@@ -28,75 +63,86 @@ $(document).ready(function () {
           break;
       }
 
-      displayEquation = equation.a ? equation.a + equation.sign + input : input;
+      displayEquation = equation.join(" ") + " " + input;
 
-      input = math.evaluate(input);
-      equation.a = equation.a || input;
+      input = math.evaluate(input).toString();
 
-      displayInput = equation.a;
-    } else if (val === "+" || val === "*" || val === "/" || val === "-") {
-      // ["+","-","*","/"].include(val)
-      if (!didSolved) {
-        let temp = equation.a + equation.sign + input;
-        let result = math.evaluate(temp).toString();
-
-        equation.a = result;
-
-        displayEquation = result + val;
-        didSolved = true;
+      // equation.push(input);
+      // input = "";
+      displayInput = Number(input);
+    } else if (SIGN.includes(val)) {
+      // incase a+b+c+d...
+      if (equation.some((char) => SIGN.includes(char))) {
+          if (input !== "") {
+          equation.push(input);
+          let result = math.evaluate(equation.join("")).toString();
+          equation = [result];
+        } else {
+          while (equation.some((char) => SIGN.includes(char))) {
+            equation.pop();
+          }
+        }
+      } else {
+        input.length !== 0 ? equation.push(input) : equation.push(0);
       }
-      equation.a = input || 0;
-      equation.sign = val;
+
       input = "";
+      equation.push(val);
 
-
-      displayEquation = equation.a + equation.sign;
+      displayEquation = equation.join(" ");
     } else if (val === "del" || val === "c" || val === "ce") {
       switch (val) {
         case "del":
-          if (input.length > 1) input.slice(-1);
-          else input = "";
-          displayInput = input || "0";
+          console.log(equation,input);
+          if(isNumeric(equation[equation.length-1]))
+          {
+            input = equation[0];
+            equation = [];
+            displayEquation = "";
+          }
+          else if (input.length > 1) input = input.slice(0, input.length - 1);
+          else if (SIGN.includes(equation[equation.length-1]) && input === "") break;
+          else input = "0";
+          displayInput = Number(input).toString() || "0";
           break;
+        case "ce":
+          if(!isNumeric(equation[equation.length-1]))
+          {
+            input = "";
+            displayInput = "0";
+            break;
+          }
         case "c":
           input = "";
-          equation.a = null;
-          equation.sign = null;
+          equation = [];
 
           displayEquation = "";
           displayInput = "0";
           break;
-        case "ce":
-          input = "";
-          displayInput = "0";
-          break;
       }
     } else if (val === "=") {
-      let temp = equation.a + equation.sign + input;
-      let result = math.evaluate(temp).toString();
-
-      equation.a = result;
-      didSolved = true;
+      console.log("equation",equation,"input",input);
+      if (input !== "") equation.push(input);
+      let result = math.evaluate(equation.join("")).toString();
 
       displayInput = result;
-      displayEquation = temp + "=";
+      displayEquation = equation.join(" ") + " =";
+
+      equation[0] = result;
+      input = "";
     }
 
     document.getElementById("equation").innerHTML = displayEquation;
     document.getElementById("displayVal").innerHTML = displayInput;
   });
+
+  $("#equals").click(function () {
+    let result = math.evaluate(equation.join("")).toString();
+    let temp = equation.concat(["=",result]);
+    History.push(temp);
+  });
 });
 
 function isNumeric(str) {
   return !isNaN(Number(str));
-}
-
-function solve() {
-  let temp = equation.a + equation.sign + input;
-  let result = math.evaluate(temp).toString();
-
-  equation.a = result;
-
-  displayInput = result;
-  displayEquation = temp + "=";
 }

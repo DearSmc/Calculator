@@ -22,6 +22,7 @@ button{
   background-color: #f9f9f8;
   color: #1a1a1a;
   border: none;
+  border-radius: 0.4rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 17vw;
   height: 10vh;
@@ -33,11 +34,18 @@ button{
 
 }
 
-.side{
+button:hover{
+  background-color: #C2D5D8;;
+}
+
+button:active{
+  background-color: #8BB1B8;;
+}
+
+#side{
   width: 35vw;
   color: white;
-  background-color: #1d6978;
-  padding: 0.5rem
+  background-color: #548D98; 
 }
 
 .spacialBtn {
@@ -47,7 +55,7 @@ button{
 }
 
 .displayContainer{
-  background-color: #345678;
+  background-color: #548D98;
   color: #e5eef1;
   height: 30vh;
   padding: 1%;
@@ -114,9 +122,45 @@ button{
 #displayVal{
   font-size: 3rem;
   margin: 0.5rem;
+  /* max-width: 90%; */
 }
 
 #equation{
   font-size: 1.2rem;
   margin: 0.5rem;
 }
+
+.card
+{
+  display: block;
+  margin: 2% 0%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+.card:hover{
+  background-color: #8BB1B8;
+}
+
+
+/* 
+@media (min-width: 600px) {
+  #side {
+    display: none;
+  }
+  button {
+    width: auto;
+  }
+} */
+
+/* 
+#F9F9F8
+#C2D5D8
+#8BB1B8
+#548D98
+#1D6978
+*/
