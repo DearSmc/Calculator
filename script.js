@@ -1,189 +1,222 @@
-let History = [];
-let equation = [];
-let input = "";
-let displayInput = "";
-let displayEquation = "";
 const SIGN = ["+", "-", "*", "/"];
+const TEMPATE_VARIABLE = {
+    history : [],
+    equation : [],
+    input : "",
+    displayInput : "",
+    displayEquation : "",
+}
+let v = [{}];
 
 $(document).ready(function () {
 
-  $("button").click(function () {
-    var val = $(this).val();
+    const container = document.getElementById('main-container');
+    
+    container.addEventListener('click', (event) => {
+    let eventObj = event.composedPath();
+    const target = eventObj[0]; // Get the actual target of the event
+    
+    let instanceId = 0;
+    for(let i=0; i< event.composedPath().length;i++)
+    {
+        if(eventObj[i].localName === "calculator-jquery")
+        {
+            instanceId = Number(eventObj[i].attributes['instance-id'].value);
+            break;
+        }
+    }
+                
+    // console.log(eventObj,instanceId)
+    
+    if (target.tagName === 'BUTTON') {
+        handleButtonClick(instanceId,target.value)
+    }
+    });
+});
+
+function handleButtonClick(insId,val){
+    console.log(`instance ${insId} was clicked`); 
+   
     if (isNumeric(val) || val === "." || val === "*-1") {
       if (val === "*-1") {
-        let temp = input || equation[0] || "0";
+        let temp = v[insId].input || v[insId].equation[0] || "0";
 
-        if (input !== "") {
-          input = (Number(input) * -1).toString();
+        if (v[insId].input !== "") {
+          v[insId].input = (Number(v[insId].input) * -1).toString();
         }
-        else if(equation[0] !== undefined)
+        else if(v[insId].equation[0] !== undefined)
         {        
-          if(isNumeric(equation[equation.length - 1])){// end with equals;
-            input = (Number(equation[0]) * -1).toString();
-            equation = [];
+          if(isNumeric(v[insId].equation[v[insId].equation.length - 1])){// end with equals;
+            v[insId].input = (Number(v[insId].equation[0]) * -1).toString();
+            v[insId].equation = [];
           }
           else { // end with sign
-            input = equation[0];
+            v[insId].input = v[insId].equation[0];
           }
         }
-        else input ="0"
+        else v[insId].input ="0"
         
-        displayEquation = equation.join(" ")+" negative(" + temp +")"
+        v[insId].displayEquation = v[insId].equation.join(" ")+" negative(" + temp +")"
         
       } else if (val === ".") {
-        input = input + val;
-      } else input = Number(input + val).toString();
+        v[insId].input = v[insId].input + val;
+      } else {
+            if(v[insId].equation.length === 1)    v[insId].equation.pop();
+            v[insId].input = Number(v[insId].input + val).toString();
+        }
 
-      displayInput = input;
+      v[insId].displayInput = v[insId].input;
+
     } else if (["%", "^2", "1/", "sqrt"].includes(val)) {
-      if (input === "") {
+      if (v[insId].input === "") {
         // case 4 after del c ce
-        if (equation.some((char) => SIGN.includes(char))) {
-          if (isNumeric(equation[equation.length - 1])) {
+        if (v[insId].equation.some((char) => SIGN.includes(char))) {
+          if (isNumeric(v[insId].equation[v[insId].equation.length - 1])) {
             //case 1 after equals;
-            input = equation[0];
-            equation = [];
+            v[insId].input = v[insId].equation[0];
+            v[insId].equation = [];
           } else {
             // case 2 end with sign;
-            input = equation[0];
+            v[insId].input = v[insId].equation[0];
           }
-        } // case 3 first time;
-        else input = "0";
+        } 
+        // spacial case - spacial sign then equal then spacial sogn again
+        else if(v[insId].equation[0] !== undefined) v[insId].input = v[insId].equation.pop();
+        // case 3 first time;
+        else v[insId].input = "0";
       }
 
       switch (val) {
         case "%":
         case "^2":
-          input += val;
+          v[insId].input += val;
           break;
         case "1/":
-          input = val + input;
+          v[insId].input = val + v[insId].input;
           break;
         case "sqrt":
-          input = val + "(" + input + ")";
+          v[insId].input = val + "(" + v[insId].input + ")";
           break;
       }
 
-      displayEquation = equation.join(" ") + " " + input;
+      v[insId].displayEquation = v[insId].equation.join(" ") + " " + v[insId].input;
 
-      input = math.evaluate(input).toString();
+      v[insId].input = math.evaluate(v[insId].input).toString();
 
-      // equation.push(input);
-      // input = "";
-      displayInput = Number(input);
+      
+      v[insId].displayInput = Number(v[insId].input);
     } else if (SIGN.includes(val)) {
-      console.log("equation",equation,"input",input);
       // incase a+b+c+d...
-      if (equation.some((char) => SIGN.includes(char))) {
-          if (input !== "") {
-          equation.push(input);
-          addHistory();
-          let result = math.evaluate(equation.join("")).toString();
-          equation = [result];
+      if (v[insId].equation.some((char) => SIGN.includes(char))) {
+          if (v[insId].input !== "") {
+          v[insId].equation.push(v[insId].input);
+          addHistory(insId);
+          let result = math.evaluate(v[insId].equation.join("")).toString();
+          v[insId].equation = [result];
         } else {
-          console.log("in");
-          while (equation.some((char) => SIGN.includes(char))) {
-            equation.pop();
+          while (v[insId].equation.some((char) => SIGN.includes(char))) {
+            v[insId].equation.pop();
           }
         }
       } else {
-        input.length !== 0 ? equation.push(input) : equation.push(0);
+        if(v[insId].input.length !== 0)  
+            v[insId].equation.push(v[insId].input) 
+        else if(v[insId].equation.length === 0 )
+            v[insId].equation.push(0);
       }
 
-      input = "";
-      equation.push(val);
+      v[insId].input = "";
+      v[insId].equation.push(val);
 
-      displayEquation = equation.join(" ");
+      v[insId].displayEquation = v[insId].equation.join(" ");
     } else if (val === "del" || val === "c" || val === "ce") {
       switch (val) {
         case "del":
-          console.log(equation,input);
-          if(isNumeric(equation[equation.length-1]))
+          if(isNumeric(v[insId].equation[v[insId].equation.length-1]))
           {
-            input = equation[0];
-            equation = [];
-            displayEquation = "";
+            v[insId].input = v[insId].equation[0];
+            v[insId].equation = [];
+            v[insId].displayEquation = "";
           }
-          else if (input.length > 1) input = input.slice(0, input.length - 1);
-          else if (SIGN.includes(equation[equation.length-1]) && input === "") break;
-          else input = "0";
-          displayInput = Number(input).toString() || "0";
+          else if (v[insId].input.length > 1) v[insId].input = v[insId].input.slice(0, v[insId].input.length - 1);
+          else if (SIGN.includes(v[insId].equation[v[insId].equation.length-1]) && v[insId].input === "") break;
+          else v[insId].input = "0";
+          v[insId].displayInput = Number(v[insId].input).toString() || "0";
           break;
         case "ce":
-          if(!isNumeric(equation[equation.length-1]))
+          if(!isNumeric(v[insId].equation[v[insId].equation.length-1]))
           {
-            input = "";
-            displayInput = "0";
+            v[insId].input = "";
+            v[insId].displayInput = "0";
             break;
           }
         case "c":
-          input = "";
-          equation = [];
+          v[insId].input = "";
+          v[insId].equation = [];
 
-          displayEquation = "";
-          displayInput = "0";
+          v[insId].displayEquation = "";
+          v[insId].displayInput = "0";
           break;
       }
     } else if (val === "=") {
-    //  console.log("equation",equation);
+    // console.log("equation",v[insId].equation,"input",v[insId].input);
 
-      if (input !== "") equation.push(input);
-      addHistory();
-      let result = math.evaluate(equation.join("")).toString();
+      if (v[insId].input !== "") v[insId].equation.push(v[insId].input);
+      addHistory(insId);
+      let result = math.evaluate(v[insId].equation.join("")).toString();
 
-      displayInput = result;
-      displayEquation = equation.join(" ") + " =";
+      v[insId].displayInput = result;
+      v[insId].displayEquation = v[insId].equation.join(" ") + " =";
 
-      equation[0] = result;
-      input = "";
+      v[insId].equation[0] = result;
+      v[insId].input = "";
     }
 
-    refreshDisplay(displayEquation,displayInput);
+    refreshDisplay(insId,v[insId].displayEquation,v[insId].displayInput);
 
-  });
+}
 
-});
-
-function refreshDisplay(equation,input) {
-  document.getElementById("equation").innerHTML = equation;
-  document.getElementById("displayVal").innerHTML = input;
+function refreshDisplay(instanceId,equation,input) {
+    const ele = getElementByIdAndInsId(instanceId,"equation");
+    ele.innerHTML = equation;
+    getElementByIdAndInsId(instanceId,"displayVal").innerHTML = input;
 }
 // call before calculate!!
-function addHistory() {
+function addHistory(insId) {
 
-  let result = math.evaluate(equation.join("")).toString();
-  let temp = equation.concat([result]);
-  History.push(temp);
+  const result = math.evaluate(v[insId].equation.join("")).toString();
+  const temp = v[insId].equation.concat([result]);
+  v[insId].history.push(temp);
 
-  let spanEquationEl = document.createElement("span");
+  const spanEquationEl = document.createElement("span");
   spanEquationEl.classList.add("historyEquation");
-  spanEquationEl.innerHTML = equation.join(" ")+" =";
+  spanEquationEl.innerHTML = v[insId].equation.join(" ")+" =";
 
-  let spanResultEl = document.createElement("span");
+  const spanResultEl = document.createElement("span");
   spanResultEl.classList.add("historyResult");
   spanResultEl.innerHTML = result;
 
   let li =  document.createElement("li");
-  li.id = `Card-${History.length}`;
+  li.id = `Card-${v[insId].history.length}`;
   li.classList.add("card");
   li.appendChild(spanEquationEl);
   li.appendChild(spanResultEl);
 
   li.addEventListener('click',function() {
     const id = this.id;
-    let num = Number(id.slice(id.indexOf("-")+1))-1;
+    const num = Number(id.slice(id.indexOf("-")+1))-1;
    
-    equation = History[num];
-    input = equation.pop();
-    displayEquation = equation.join(" ");
-    displayInput = input;
-    refreshDisplay(displayEquation,displayInput);
+    v[insId].equation = v[insId].history[num];
+    v[insId].input = v[insId].equation.pop();
+    v[insId].displayEquation = v[insId].equation.join(" ");
+    v[insId].displayInput = v[insId].input;
+    refreshDisplay(insId,v[insId].displayEquation,v[insId].displayInput);
     
-    equation[0] = input;
-    input = "";
+    v[insId].equation[0] = v[insId].input;
+    v[insId].input = "";
   })
 
-  const parentElement = document.getElementById("historyList");
+  const parentElement = getElementByIdAndInsId(insId,"historyList");
   const firstChild = parentElement.firstChild; // Get the current first child
   parentElement.insertBefore(li, firstChild)
   
@@ -192,3 +225,31 @@ function addHistory() {
 function isNumeric(str) {
   return !isNaN(Number(str));
 }
+
+function getElementByIdAndInsId(instanceId,elementId){
+    const instance = document.querySelector(`calculator-jquery[instance-id="${instanceId}"]`);
+    const element = instance.shadowRoot.querySelector("#"+elementId); // Assuming the element is inside the shadow DOM
+    return element;
+}
+
+class MyCustomElement extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    // Get the instance ID
+    // const instanceId = this.getAttribute('instance-id'); 
+
+    // Create a <style> element for the shadow DOM
+    const style = document.createElement('style');
+    style.textContent = `@import 'style.css';`;
+    // Define the template
+    const template = document.getElementById('calculator-jquery');
+    const clone = document.importNode(template.content, true);
+    shadow.appendChild(style);
+    shadow.appendChild(clone);
+
+    v.push({...TEMPATE_VARIABLE});
+    }
+}
+
+customElements.define('calculator-jquery', MyCustomElement);
