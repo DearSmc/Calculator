@@ -1,10 +1,11 @@
+let History = [];
+let equation = [];
+let input = "";
+let displayInput = "";
+let displayEquation = "";
+const SIGN = ["+", "-", "*", "/"];
+
 $(document).ready(function () {
-  let History = [];
-  let equation = [];
-  let input = "";
-  let displayInput = "";
-  let displayEquation = "";
-  let SIGN = ["+", "-", "*", "/"];
 
   $("button").click(function () {
     var val = $(this).val();
@@ -71,13 +72,16 @@ $(document).ready(function () {
       // input = "";
       displayInput = Number(input);
     } else if (SIGN.includes(val)) {
+      console.log("equation",equation,"input",input);
       // incase a+b+c+d...
       if (equation.some((char) => SIGN.includes(char))) {
           if (input !== "") {
           equation.push(input);
+          addHistory();
           let result = math.evaluate(equation.join("")).toString();
           equation = [result];
         } else {
+          console.log("in");
           while (equation.some((char) => SIGN.includes(char))) {
             equation.pop();
           }
@@ -121,8 +125,10 @@ $(document).ready(function () {
           break;
       }
     } else if (val === "=") {
-      console.log("equation",equation,"input",input);
+    //  console.log("equation",equation);
+
       if (input !== "") equation.push(input);
+      addHistory();
       let result = math.evaluate(equation.join("")).toString();
 
       displayInput = result;
@@ -132,16 +138,56 @@ $(document).ready(function () {
       input = "";
     }
 
-    document.getElementById("equation").innerHTML = displayEquation;
-    document.getElementById("displayVal").innerHTML = displayInput;
+    refreshDisplay(displayEquation,displayInput);
+
   });
 
-  $("#equals").click(function () {
-    let result = math.evaluate(equation.join("")).toString();
-    let temp = equation.concat(["=",result]);
-    History.push(temp);
-  });
 });
+
+function refreshDisplay(equation,input) {
+  document.getElementById("equation").innerHTML = equation;
+  document.getElementById("displayVal").innerHTML = input;
+}
+// call before calculate!!
+function addHistory() {
+
+  let result = math.evaluate(equation.join("")).toString();
+  let temp = equation.concat([result]);
+  History.push(temp);
+
+  let spanEquationEl = document.createElement("span");
+  spanEquationEl.classList.add("historyEquation");
+  spanEquationEl.innerHTML = equation.join(" ")+" =";
+
+  let spanResultEl = document.createElement("span");
+  spanResultEl.classList.add("historyResult");
+  spanResultEl.innerHTML = result;
+
+  let li =  document.createElement("li");
+  li.id = `Card-${History.length}`;
+  li.classList.add("card");
+  li.appendChild(spanEquationEl);
+  li.appendChild(spanResultEl);
+
+  li.addEventListener('click',function() {
+    const id = this.id;
+    let num = Number(id.slice(id.indexOf("-")+1))-1;
+   
+    equation = History[num];
+    input = equation.pop();
+    displayEquation = equation.join(" ");
+    displayInput = input;
+    refreshDisplay(displayEquation,displayInput);
+    
+    equation[0] = input;
+    input = "";
+  })
+
+  const parentElement = document.getElementById("historyList");
+  const firstChild = parentElement.firstChild; // Get the current first child
+  parentElement.insertBefore(li, firstChild)
+  
+}
 
 function isNumeric(str) {
   return !isNaN(Number(str));

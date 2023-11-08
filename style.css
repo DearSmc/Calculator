@@ -45,7 +45,9 @@ button:active{
 #side{
   width: 35vw;
   color: white;
-  background-color: #548D98; 
+  background-color: #548D98;
+  height:98vh;
+  overflow-y: hidden;
 }
 
 .spacialBtn {
@@ -141,9 +143,30 @@ button:active{
   align-items: end;
   border-radius: 0.2rem;
   cursor: pointer;
+    /* .prevent-select */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 .card:hover{
   background-color: #8BB1B8;
+}
+
+.historyEquation{
+  font-size: 1rem;
+  padding-right: 0.5rem;
+}
+
+.historyResult{
+  font-size: 1.2rem;
+  margin-top: 0.3rem;
+  padding-right: 0.5rem;
+}
+
+#historyList{
+  padding:0%;
+  overflow: hidden; 
+  margin: 0;
 }
 
 
