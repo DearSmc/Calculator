@@ -10,8 +10,9 @@ let v = [{}];
 
 $(document).ready(function () {
 
-    const container = document.getElementById('main-container');
-    
+  const container = document.getElementById('main-container');
+  if(container)
+  {
     container.addEventListener('click', (event) => {
     let eventObj = event.composedPath();
     const target = eventObj[0]; // Get the actual target of the event
@@ -32,6 +33,7 @@ $(document).ready(function () {
         handleButtonClick(instanceId,target.value)
     }
     });
+  }
 });
 
 function handleButtonClick(insId,val){
@@ -71,13 +73,11 @@ function handleButtonClick(insId,val){
       if (v[insId].input === "") {
         // case 4 after del c ce
         if (v[insId].equation.some((char) => SIGN.includes(char))) {
-          if (isNumeric(v[insId].equation[v[insId].equation.length - 1])) {
-            //case 1 after equals;
-            v[insId].input = v[insId].equation[0];
-            v[insId].equation = [];
-          } else {
             // case 2 end with sign;
             v[insId].input = v[insId].equation[0];
+            
+          if (isNumeric(v[insId].equation[v[insId].equation.length - 1])) { //case 1 after equals;
+            v[insId].equation = [];
           }
         } 
         // spacial case - spacial sign then equal then spacial sogn again
@@ -102,7 +102,6 @@ function handleButtonClick(insId,val){
       v[insId].displayEquation = v[insId].equation.join(" ") + " " + v[insId].input;
 
       v[insId].input = math.evaluate(v[insId].input).toString();
-
       
       v[insId].displayInput = Number(v[insId].input);
     } else if (SIGN.includes(val)) {
@@ -253,3 +252,7 @@ class MyCustomElement extends HTMLElement {
 }
 
 customElements.define('calculator-jquery', MyCustomElement);
+
+
+
+  // TODO: refactor code

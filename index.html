@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>HTML Calculator</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.js" integrity="sha512-rffRpOvP8/vOkbpVUpjesEh2AI40+pNcMh0LAAdOKBE96pLnJh1IGKGhu/RL5lrmW8fA9p5ph5GkCOlMNXr3eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="script.js"></script>
-  </head>
-
-  <body>
+   <head>
+      <title>KnockoutJS Simple Example</title>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.js" integrity="sha512-rffRpOvP8/vOkbpVUpjesEh2AI40+pNcMh0LAAdOKBE96pLnJh1IGKGhu/RL5lrmW8fA9p5ph5GkCOlMNXr3eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
+      <script src="script.js"></script>
+      <link rel="stylesheet" href="style.css" />
+   </head>
+    
+   <body>
+    <!-- Template -->
     <template id="calculator-jquery">
       <div class="containner">
         <div class="verticalContainer">
@@ -73,10 +75,91 @@
         </aside>
       </div>
     </template>
+
+    <!-- <template id="calculator-KO"> -->
+    <script type="text/html" id="item-template">
+      <div class="containner">
+        <div class="verticalContainer">
+          <div class="displayContainer">
+            <p id="equation"  data-bind="text: displayEquation"></p>
+            <p id="displayVal" data-bind="text: displayInput"></p>
+          </div>
+  
+          <div class="buttonContainer">
+              <button id="percent" data-bind="click: function() {handleSpacialSignClick('%');}">%</button>
+              <button id="ce" data-bind='click: ce'>CE</button>
+              <button id="c" data-bind='click: clear'>C</button>
+              <button id="del" data-bind='click: del' style="font-size: 1.5rem">&#9003;</button>
+  
+              <button id="dx" data-bind="click: function() {handleSpacialSignClick('1/');}">1<sub style="font-size: 1.2rem">/x</sub></button>
+              <button id="pow2" data-bind="click: function() {handleSpacialSignClick('^2');}">X<sup>2</sup></button>
+              <button id="sqrt" data-bind="click: function() {handleSpacialSignClick('sqrt');}">
+                <span class="msqrt" id="MathJax-Span-119" style="padding-left: 0.305em;"><span style="display: inline-block; position: relative; width: 1.414em; height: 0px;"><span style="position: absolute; clip: rect(3.38em, 1000.51em, 4.136em, -999.997em); top: -3.979em; left: 0.859em;"><span class="mrow" id="MathJax-Span-120"><span class="mi" id="MathJax-Span-121" style="font-family: MathJax_Math-italic;">x</span></span><span style="display: inline-block; width: 0px; height: 3.984em;"></span></span><span style="position: absolute; clip: rect(0.91em, 1000.56em, 1.263em, -999.997em); top: -1.762em; left: 0.859em;"><span style="display: inline-block; overflow: hidden; vertical-align: -0.048em; border-top: 1.3px solid; width: 0.557em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.061em;"></span></span><span style="position: absolute; clip: rect(3.027em, 1000.86em, 4.337em, -999.997em); top: -3.929em; left: 0.003em;"><span style="font-family: MathJax_Main;">√</span><span style="display: inline-block; width: 0px; height: 3.984em;"></span></span></span></span>
+              </button>
+              <button id="divide" data-bind="click: function() {handleSignClick('/');}">
+                <span style="font-size: 1.5rem;">&divide</span>
+              </button>
+  
+  
+              <button id="seven" data-bind="click: function() {handleNumberClick(7);}">7</button>
+              <button id="eight" data-bind="click: function() {handleNumberClick(8);}">8</button>
+              <button id="nine" data-bind="click: function() {handleNumberClick(9);}">9</button>
+              <button id="times" data-bind="click: function() {handleSignClick('*');}" style="font-size: 1.5rem">&times;</button>
+  
+  
+              <button id="four" data-bind="click: function() {handleNumberClick(4);}">4</button>
+              <button id="five" data-bind="click: function() {handleNumberClick(5);}">5</button>
+              <button id="six" data-bind="click: function() {handleNumberClick(6);}">6</button>
+              <button id="plus" data-bind="click: function() {handleSignClick('+');}" style="font-size: 1.5rem">&plus;</button>
+  
+  
+              <button id="one" data-bind="click: function() {handleNumberClick(1);}">1</button>
+              <button id="two" data-bind="click: function() {handleNumberClick(2);}">2</button>
+              <button id="three" data-bind="click: function() {handleNumberClick(3);}">3</button>
+              <button id="minus" data-bind="click: function() {handleSignClick('-');}" style="font-size: 1.5rem">&minus;</button>
+  
+  
+              <button id="toggleNegative" data-bind="click: function() {handleNumberClick('*-1');}">&plus;<sub>/&minus;</sub></button>
+              <button id="zero" data-bind="click: function() {handleNumberClick(0);}">0</button>
+              <button id="point" data-bind="click: function() {handleNumberClick('.');}" style="font-size: 1.5rem">.</button>
+              <button id="equal" data-bind="click: function() {handleEqualClick();}" class="spacialBtn">&equals;</button>
+  
+          </div>
+        </div>
     
-    <div id="main-container">
+    
+        <aside id="side">
+          <h1 style=" padding: 0.7rem 0.7rem 0.3rem 0.7rem; margin: 0; ">History</h1>
+          <ul id="historyList" data-bind="foreach: history">
+            <li class="card" data-bind="click: function(){handleHistoryClick();}">
+              <span class="historyEquation" data-bind="text: historyEquation"></span>
+              <span class="historyResult" data-bind="text: historyResult"></span>
+            </li> 
+          </ul>
+        </aside>
+      </div> 
+    </script>
+    <!-- </template> -->
+    
+    <!-- main -->
+    
+    <div id="main-container" style="display: none;">
       <calculator-jquery instance-id="1"></calculator-jquery>
       <calculator-jquery instance-id="2"></calculator-jquery>
+    </div> 
+    <!-- TODO: add button to add more JQ Calculator -->
+    
+    <div id="ko-container">
+      <div data-bind="foreach: items">
+        <!-- ko template: { name: 'item-template', data: $data } --><!-- /ko -->
+      </div>
     </div>
+    
+    <button onclick="addItem()" style="font-size: 0.8rem;">Add New Calculator</button>
+
+    
+    <script src="KOscript.js"></script>
   </body>
 </html>
+
+
