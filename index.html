@@ -4,27 +4,27 @@
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.js" integrity="sha512-rffRpOvP8/vOkbpVUpjesEh2AI40+pNcMh0LAAdOKBE96pLnJh1IGKGhu/RL5lrmW8fA9p5ph5GkCOlMNXr3eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
- 
+
       <script src="script.js"></script>
       <link rel="stylesheet" href="style.css" />
    </head>
-    
+
    <body>
     <!-- Template -->
     <template id="calculator-jquery">
-      <div class="containner">
+      <div class="JQ containner">
         <div class="verticalContainer">
           <div class="displayContainer">
             <p id="equation"></p>
             <p id="displayVal"></p>
           </div>
-  
+
           <div class="buttonContainer">
               <button id="percent" value="%">%</button>
               <button id="ce" value="ce">CE</button>
               <button id="c" value="c">C</button>
               <button id="del" value="del" style="font-size: 1.5rem">&#9003;</button>
-  
+
               <button id="dx" value="1/">1<sub style="font-size: 1.2rem">/x</sub></button>
               <button id="pow2" value="^2">X<sup>2</sup></button>
               <button id="sqrt" value="sqrt">
@@ -33,43 +33,43 @@
               <button id="divide" value="/">
                 <span style="font-size: 1.5rem;">&divide</span>
               </button>
-  
-  
+
+
               <button id="seven" value="7">7</button>
               <button id="eight" value="8">8</button>
               <button id="nine" value="9">9</button>
               <button id="times" value="*" style="font-size: 1.5rem">&times;</button>
-  
-  
+
+
               <button id="four" value="4">4</button>
               <button id="five" value="5">5</button>
               <button id="six" value="6">6</button>
               <button id="plus" value="+" style="font-size: 1.5rem">&plus;</button>
-  
-  
+
+
               <button id="one" value="1">1</button>
               <button id="two" value="2">2</button>
               <button id="three" value="3">3</button>
               <button id="minus" value="-" style="font-size: 1.5rem">&minus;</button>
-  
-  
+
+
               <button id="toggleNegative" value="*-1">&plus;<sub>/&minus;</sub></button>
               <button id="zero" value="0">0</button>
               <button id="point" value="." style="font-size: 1.5rem">.</button>
               <button id="equals" value="=" class="spacialBtn">&equals;</button>
-  
+
           </div>
         </div>
-    
-    
+
+
         <aside id="side">
           <h1 style=" padding: 0.7rem 0.7rem 0.3rem 0.7rem; margin: 0; ">History</h1>
           <ul id="historyList">
-            <!-- 
+            <!--
             <li class="card">
               <span class="historyEquation"> Card title </span>
               <span class="historyResult"> Card header </span>
-            </li> 
+            </li>
           -->
           </ul>
         </aside>
@@ -84,13 +84,13 @@
             <p id="equation"  data-bind="text: displayEquation"></p>
             <p id="displayVal" data-bind="text: displayInput"></p>
           </div>
-  
+
           <div class="buttonContainer">
               <button id="percent" data-bind="click: function() {handleSpacialSignClick('%');}">%</button>
               <button id="ce" data-bind='click: ce'>CE</button>
               <button id="c" data-bind='click: clear'>C</button>
               <button id="del" data-bind='click: del' style="font-size: 1.5rem">&#9003;</button>
-  
+
               <button id="dx" data-bind="click: function() {handleSpacialSignClick('1/');}">1<sub style="font-size: 1.2rem">/x</sub></button>
               <button id="pow2" data-bind="click: function() {handleSpacialSignClick('^2');}">X<sup>2</sup></button>
               <button id="sqrt" data-bind="click: function() {handleSpacialSignClick('sqrt');}">
@@ -99,65 +99,67 @@
               <button id="divide" data-bind="click: function() {handleSignClick('/');}">
                 <span style="font-size: 1.5rem;">&divide</span>
               </button>
-  
-  
+
+
               <button id="seven" data-bind="click: function() {handleNumberClick(7);}">7</button>
               <button id="eight" data-bind="click: function() {handleNumberClick(8);}">8</button>
               <button id="nine" data-bind="click: function() {handleNumberClick(9);}">9</button>
               <button id="times" data-bind="click: function() {handleSignClick('*');}" style="font-size: 1.5rem">&times;</button>
-  
-  
+
+
               <button id="four" data-bind="click: function() {handleNumberClick(4);}">4</button>
               <button id="five" data-bind="click: function() {handleNumberClick(5);}">5</button>
               <button id="six" data-bind="click: function() {handleNumberClick(6);}">6</button>
               <button id="plus" data-bind="click: function() {handleSignClick('+');}" style="font-size: 1.5rem">&plus;</button>
-  
-  
+
+
               <button id="one" data-bind="click: function() {handleNumberClick(1);}">1</button>
               <button id="two" data-bind="click: function() {handleNumberClick(2);}">2</button>
               <button id="three" data-bind="click: function() {handleNumberClick(3);}">3</button>
               <button id="minus" data-bind="click: function() {handleSignClick('-');}" style="font-size: 1.5rem">&minus;</button>
-  
-  
+
+
               <button id="toggleNegative" data-bind="click: function() {handleNumberClick('*-1');}">&plus;<sub>/&minus;</sub></button>
               <button id="zero" data-bind="click: function() {handleNumberClick(0);}">0</button>
               <button id="point" data-bind="click: function() {handleNumberClick('.');}" style="font-size: 1.5rem">.</button>
               <button id="equal" data-bind="click: function() {handleEqualClick();}" class="spacialBtn">&equals;</button>
-  
+
           </div>
         </div>
-    
-    
+
+
         <aside id="side">
           <h1 style=" padding: 0.7rem 0.7rem 0.3rem 0.7rem; margin: 0; ">History</h1>
           <ul id="historyList" data-bind="foreach: history">
             <li class="card" data-bind="click: function(){handleHistoryClick();}">
               <span class="historyEquation" data-bind="text: historyEquation"></span>
               <span class="historyResult" data-bind="text: historyResult"></span>
-            </li> 
+            </li>
           </ul>
         </aside>
-      </div> 
+      </div>
     </script>
     <!-- </template> -->
-    
+
     <!-- main -->
-    
-    <div id="main-container" style="display: none;">
-      <calculator-jquery instance-id="1"></calculator-jquery>
-      <calculator-jquery instance-id="2"></calculator-jquery>
-    </div> 
-    <!-- TODO: add button to add more JQ Calculator -->
-    
+    <div id="main-container">
+      <!-- <calculator-jquery instance-id="1"></calculator-jquery>
+      <calculator-jquery instance-id="2"></calculator-jquery> -->
+    </div>
+
     <div id="ko-container">
       <div data-bind="foreach: items">
         <!-- ko template: { name: 'item-template', data: $data } --><!-- /ko -->
       </div>
     </div>
-    
-    <button onclick="addItem()" style="font-size: 0.8rem;">Add New Calculator</button>
 
-    
+    <div style="margin: 1%;width: 100%; align-content: center;">
+      <button onclick="addItem()" style="font-size: 0.8rem;">Add New <strong style="font-size:1rem; color:#1D6978;">KO</strong> Calculator</button>
+      <span class="JQ" >
+        <button id="addJQCalculator"  style="font-size: 0.8rem;">Add New <strong style="font-size:1rem; color:#f17c6a;">JQuery</strong> Calculator</button>
+      </span>
+    </div>
+
     <script src="KOscript.js"></script>
   </body>
 </html>

@@ -165,12 +165,38 @@ button:active{
 
 #historyList{
   padding:0%;
-  overflow: hidden; 
+  overflow: hidden;
   margin: 0;
 }
 
+.JQ button:hover{
+  background-color: #FBE9E6;;
+}
 
-/* 
+.JQ button:active{
+  background-color: #FCD9D3;;
+}
+
+.JQ .spacialBtn{
+  background-color: #FFB9AE;
+  color: #444;
+}
+
+.JQ .displayContainer{
+  background-color: #FEC9C1;
+  color: #444;
+}
+
+.JQ #side{
+  color: #444;
+  background-color: #FEC9C1;
+}
+
+.JQ .card:hover{
+  background-color: #FCD9D3;
+}
+
+/*
 @media (min-width: 600px) {
   #side {
     display: none;
@@ -180,10 +206,18 @@ button:active{
   }
 } */
 
-/* 
+/*  Blue
 #F9F9F8
 #C2D5D8
 #8BB1B8
 #548D98
 #1D6978
+*/
+
+/* Pink
+#F9F9F8
+#FBE9E6
+#FCD9D3
+#FEC9C1
+#FFB9AE
 */
